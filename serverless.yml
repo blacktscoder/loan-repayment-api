@@ -1,0 +1,30 @@
+service: nestjs-serverless
+
+frameworkVersion: '4'
+
+plugins:
+  - serverless-offline
+
+custom:
+  webpack:
+    packager: npm
+    includeModules: true
+    
+
+provider:
+  name: aws
+  runtime: nodejs18.x
+  
+functions:
+  getLoan:
+    handler: src/loan/loan.controller.getLoan
+    events:
+      - http:
+          path: loan
+          method: get
+          integration: lambda 
+package:
+  excludeDevDependencies: true  # Ensure dev dependencies are excluded
+  individually: true
+  external:
+    - 'class-transformer/storage'  # Ignore the class-transformer/storage module

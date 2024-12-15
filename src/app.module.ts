@@ -1,17 +1,18 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
-import { GraphqlModule } from './graphql/graphql.module';
 import { GraphQLModule } from '@nestjs/graphql';
-import { ApolloDriver } from '@nestjs/apollo';
+import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
+import { LoanResolver } from './loan/loan.resolver';
+import { LoanService } from './loan/loan.service';
+import { Loan } from './loan/loan.model';
 
 @Module({
-  imports: [GraphQLModule.forRoot({
-    driver: ApolloDriver,
-    typePaths:['src/graphql/loan.schema.graphql'],
-  }),
-],
-  controllers: [AppController],
-  providers: [AppService],
+  imports: [
+    GraphQLModule.forRoot<ApolloDriverConfig>({
+      driver: ApolloDriver,         // Specify the driver
+      autoSchemaFile: true,         // Auto-generate the schema
+      playground: true,             // Enable GraphQL playground
+    }),
+  ],
+  providers: [LoanResolver, LoanService],
 })
 export class AppModule {}
