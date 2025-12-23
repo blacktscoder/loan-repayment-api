@@ -4,6 +4,8 @@ import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { LoanResolver } from './loan/loan.resolver';
 import { LoanService } from './loan/loan.service';
 import { Loan } from './loan/loan.model';
+import { CreditResolver } from './credit/credit.resolver';
+import { CreditService } from './credit/credit.service';
 
 @Module({
   imports: [
@@ -13,6 +15,6 @@ import { Loan } from './loan/loan.model';
       playground: true,             // Enable GraphQL playground
     }),
   ],
-  providers: [LoanResolver, LoanService],
+  providers: [LoanResolver, LoanService, CreditResolver, CreditService],
 })
 export class AppModule {}

@@ -1,23 +1,28 @@
 import { Injectable } from '@nestjs/common';
-import { Loan } from './loan.model';
+import { Loan, CreateLoanInput } from './loan.model';
 
-// loan.service.ts
 @Injectable()
 export class LoanService {
-  // Mock external data source (e.g., from a DB or API)
-  private rawLoanData = [
-    { id: 1, amount: 1000, dueDate: '2025-01-01', isPaidOff: false, interestRate: 5 },
-    { id: 2, amount: 1500, dueDate: '2025-02-01', isPaidOff: false, interestRate: 4 },
-  ];
 
-  // Simulating fetching loans
+private loan: Loan[] = [];
+private idCounter = 1;
+
+createLoan(input: CreateLoanInput): Loan {
+  if( input.amount < 10 ){
+    throw new Error('Loan amount should not be less than 10');
+  }
+  const loan = new Loan(
+    this.idCounter++,
+    input.amount,
+    input.dueDate,
+    input.isPaidOff,
+    input.interestRate,
+  );
+  this.loan.push(loan);
+  return loan;
+}
+
   getAllLoans(): Loan[] {
-    return this.rawLoanData.map(data => new Loan(
-      data.id,
-      data.amount,
-      data.dueDate,
-      data.isPaidOff,
-      data.interestRate
-    ));
+    return this.loan;
   }
 }

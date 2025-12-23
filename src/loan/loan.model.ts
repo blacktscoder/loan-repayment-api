@@ -1,4 +1,4 @@
-import { ObjectType, Field } from '@nestjs/graphql';
+import { ObjectType, Field, InputType } from '@nestjs/graphql';
 
 @ObjectType()
 export class Loan {
@@ -29,4 +29,23 @@ export class Loan {
   getTotalAmountWithInterest(): number {
     return this.amount * (1 + this.interestRate / 100);
   }
+}
+
+@InputType()
+export class CreateLoanInput {
+  @Field()
+  id: number;
+
+  @Field()
+  amount: number;
+
+  @Field()
+  dueDate: string;
+
+  @Field()
+  isPaidOff: boolean;
+
+  @Field({ nullable: true })
+  interestRate: number;
+
 }
